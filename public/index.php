@@ -16,9 +16,25 @@ try {
 
     // $stmt = $db->prepare("insert into users (name, score) values (?, ?)");
     // $stmt->execute(['taguchi', 44]);
-    $stmt = $db->prepare("insert into users (name, score) values (:name, :score)");
-    $stmt->execute([':name'=>'fkoji', 'score'=>94]);
-    echo "inserted: " . $db->lastInsertId();
+    $stmt = $db->prepare("insert into users (name, score) values (?, ?)");
+    // $stmt->execute([':name'=>'fkoji', 'score'=>94]);
+    // $stmt->execute([':name'=>'fkoji', 'score'=>44]);
+    // $stmt->execute([':name'=>'fkoji', 'score'=>54]);
+
+    $name = 'taguchi';
+    $stmt->bindValue(1, $name, PDO::PARAM_STR);
+    // 名前付きパラメータのときは第一引数に同じのを指定する
+    // $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+    $score = 23;
+    $stmt->bindValue(2, $score, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $score = 44;
+    $stmt->bindValue(2, $score, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // 文字列の時はPDO::PARAM＿STR、数値はPDO::PARAM_INT、NULLはPDO::PARAM_NULL、論理値はPDO::PARAM_BOOLと書く
+
 
 
     // disconnect
